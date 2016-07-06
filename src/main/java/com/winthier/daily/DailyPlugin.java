@@ -108,7 +108,7 @@ public class DailyPlugin extends JavaPlugin {
                            reward.title,
                            "&a"+reward.title+"\n&oReward\n"+reward.description,
                            "/daily"),
-                "&r.");
+                Msg.format("&r."));
     }
 
     public int getScore(Player player) {

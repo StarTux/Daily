@@ -1,0 +1,19 @@
+name: Daily
+description: Daily progress
+author: StarTux
+version: 0.1
+main: com.winthier.daily.DailyPlugin
+database: true
+softdepend: [ Quests, Skills, Vault ]
+commands:
+  daily:
+    description: Command interface
+    permission: daily.daily
+  dailyadmin:
+    description: Admin interface
+    permission: daily.admin
+permissions:
+  daily.daily:
+    default: false
+  daily.admin:
+    default: op

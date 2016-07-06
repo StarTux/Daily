@@ -1,0 +1,39 @@
+CommandHelp: Complete these tasks every day to climb the ladder and earn various goodies along the way. Each Daily Task gives you one Daily Point. The sum of your points grants you rewards as you progress.
+ProgressBar:
+  Dot: '-'
+  Reward: '✦'
+  Uncompleted: dark_gray
+  Completed: yellow
+  ArrowHead: '➤'
+rewards:
+
+  2:
+    Type: ConsoleCommand
+    Command: give %player% diamond
+    Title: Free Diamond
+    Description: Congratulatory diamond for completing 2 Daily Tasks.
+
+  5:
+    Type: ConsoleCommand
+    Command: claimadmin blocks %player% 1000
+    Title: Claim Blocks
+    Description: A little boost for your claim blocks to expand your base.
+
+  10:
+    Type: ConsoleCommand
+    Command: claimadmin blocks %player% 1000
+    Title: Claim Blocks
+    Description: A little boost for your claim blocks to expand your base.
+
+  15:
+    Type: ConsoleCommand
+    Command: give %player% emerald
+    Title: Free Emerald
+    Description: Congratulatory emerald
+
+  20:
+    Type: RankUp
+    From: Friendly
+    To: Member
+    Title: Rank Up
+    Description: Become a full member of Winthier.

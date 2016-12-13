@@ -5,6 +5,9 @@ ProgressBar:
   Uncompleted: dark_gray
   Completed: yellow
   ArrowHead: '➤'
+  ShowLeft: 20
+  ShowTotal: 80
+
 rewards:
 
   2:

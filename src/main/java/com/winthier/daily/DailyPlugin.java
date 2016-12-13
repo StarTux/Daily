@@ -121,10 +121,11 @@ public class DailyPlugin extends JavaPlugin {
         String arrowHeadSymbol = getConfig().getString("ProgressBar.ArrowHead", ">");
         ChatColor completedColor = ChatColor.valueOf(getConfig().getString("ProgressBar.Completed", "yellow").toUpperCase());
         ChatColor uncompletedColor = ChatColor.valueOf(getConfig().getString("ProgressBar.Uncompleted", "dark_gray").toUpperCase());
+        int showLeft = getConfig().getInt("ProgressBar.ShowLeft", 20);
+        int showTotal = getConfig().getInt("ProgressBar.ShowTotal", 80);
         int score = getScore(player);
-        final int R = 17;
-        int min = Math.max(0, score - R);
-        int max = score + R;
+        int min = Math.max(0, score - showLeft);
+        int max = min + showTotal;
         List<Object> json = new ArrayList<>();
         json.add(" ");
         for (int i = min; i <= max; ++i ) {

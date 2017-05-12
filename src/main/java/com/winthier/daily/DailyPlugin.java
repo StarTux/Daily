@@ -1,6 +1,8 @@
 package com.winthier.daily;
 
-import com.winthier.daily.sql.*;
+import com.winthier.daily.sql.SQLLog;
+import com.winthier.daily.sql.SQLScore;
+import com.winthier.sql.SQLDatabase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,10 +14,12 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public class DailyPlugin extends JavaPlugin {
     @Getter static DailyPlugin instance;
     List<Reward> rewards = null;
-    @Getter VaultHandler vaultHandler = null;
+    VaultHandler vaultHandler = null;
+    private SQLDatabase db;
     final List<DailyTask> dailyTasks = Arrays.asList(
         new DailyTask("Quest", "Complete one quest", "/q"),
         new DailyTask("SkillLevel", "Level up one skill", "/sk")
@@ -25,14 +29,8 @@ public class DailyPlugin extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         instance = this;
-        try {
-            for (Class<?> clazz : getDatabaseClasses()) {
-                getDatabase().find(clazz).findRowCount();
-            }
-        } catch (PersistenceException ex) {
-            getLogger().info("Installing database due to first time usage");
-            installDDL();
-        }
+        db = new SQLDatabase(this);
+        db.registerTables(SQLScore.class, SQLLog.class);
         getCommand("dailyadmin").setExecutor(new AdminCommand(this));
         getCommand("daily").setExecutor(new DailyCommand(this));
         // Handlers
@@ -56,14 +54,6 @@ public class DailyPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         instance = null;
-    }
-
-    @Override
-    public List<Class<?>> getDatabaseClasses() {
-        return Arrays.asList(
-            SQLScore.class,
-            SQLLog.class
-            );
     }
 
     public List<Reward> getRewards() {

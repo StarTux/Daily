@@ -2,13 +2,13 @@ package com.winthier.daily.sql;
 
 import com.avaje.ebean.validation.Length;
 import com.avaje.ebean.validation.NotEmpty;
-import com.avaje.ebean.validation.NotNull;
 import com.winthier.daily.DailyPlugin;
 import com.winthier.daily.Util;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -27,9 +27,9 @@ import org.bukkit.entity.Player;
 @NoArgsConstructor
 public class SQLScore {
     @Id Integer id;
-    @NotNull UUID playerUuid;
-    @NotNull String playerName;
-    @NotNull Integer score;
+    @Column(nullable = false) UUID playerUuid;
+    @Column(nullable = false) String playerName;
+    @Column(nullable = false) Integer score;
     @Version Date version;
 
     private SQLScore(Player player) {

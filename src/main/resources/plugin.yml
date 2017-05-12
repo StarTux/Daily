@@ -3,7 +3,6 @@ description: Daily progress
 author: StarTux
 version: 0.1
 main: com.winthier.daily.DailyPlugin
-database: true
 softdepend: [ Quests, Skills, Vault ]
 commands:
   daily:

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.PersistenceException;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,16 +14,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public class DailyPlugin extends JavaPlugin {
-    @Getter static DailyPlugin instance;
-    List<Reward> rewards = null;
-    VaultHandler vaultHandler = null;
+public final class DailyPlugin extends JavaPlugin {
+    @Getter private static DailyPlugin instance;
+    private List<Reward> rewards = null;
+    private VaultHandler vaultHandler = null;
     private SQLDatabase db;
-    final List<DailyTask> dailyTasks = Arrays.asList(
+    private final List<DailyTask> dailyTasks = Arrays.asList(
         new DailyTask("Quest", "Complete one quest", "/q"),
         new DailyTask("SkillLevel", "Level up one skill", "/sk")
         );
-    
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -53,7 +52,13 @@ public class DailyPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        flushCache();
         instance = null;
+    }
+
+    void flushCache() {
+        reloadConfig();
+        rewards = null;
     }
 
     public List<Reward> getRewards() {
@@ -72,8 +77,8 @@ public class DailyPlugin extends JavaPlugin {
 
     public Reward getReward(int score) {
         for (Reward reward: getRewards()) {
-            if (score == reward.score) return reward;
-            if (score < reward.score) return null;
+            if (score == reward.getScore()) return reward;
+            if (score < reward.getScore()) return null;
         }
         return null;
     }
@@ -90,13 +95,13 @@ public class DailyPlugin extends JavaPlugin {
     }
 
     void giveReward(Player player, Reward reward) {
-        SQLLog.store(player, "Reward-" + reward.score);
+        SQLLog.store(player, "Reward-" + reward.getScore());
         reward.give(player);
         Msg.raw(player,
                 "Congratulations! You win the reward ",
                 Msg.button(ChatColor.GREEN,
-                           reward.title,
-                           "&a"+reward.title+"\n&oReward\n"+reward.description,
+                           reward.getTitle(),
+                           "&a" + reward.getTitle() + "\n&oReward\n" + reward.getDescription(),
                            "/daily"),
                 Msg.format("&r."));
     }
@@ -118,7 +123,7 @@ public class DailyPlugin extends JavaPlugin {
         int max = min + showTotal;
         List<Object> json = new ArrayList<>();
         json.add(" ");
-        for (int i = min; i <= max; ++i ) {
+        for (int i = min; i <= max; ++i) {
             boolean completed = score >= i;
             Reward reward = getReward(i);
             ChatColor color = completed ? completedColor : uncompletedColor;
@@ -127,11 +132,11 @@ public class DailyPlugin extends JavaPlugin {
             } else {
                 if (completed) {
                     json.add(Msg.button(completedColor, rewardSymbol,
-                                        "&9"+reward.title+"\n"+reward.score+" Points &9(Completed)\n&o"+reward.description,
+                                        "&9" + reward.getTitle() + "\n" + reward.getScore() + " Points &9(Completed)\n&o" + reward.getDescription(),
                                         null));
                 } else {
                     json.add(Msg.button(uncompletedColor, rewardSymbol,
-                                        "&a"+reward.title+"\n"+reward.score+" Points\n&o"+reward.description,
+                                        "&a" + reward.getTitle() + "\n" + reward.getScore() + " Points\n&o" + reward.getDescription(),
                                         null));
                 }
             }

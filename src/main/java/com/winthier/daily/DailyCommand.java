@@ -7,9 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @RequiredArgsConstructor
-public class DailyCommand implements CommandExecutor {
-    final DailyPlugin plugin;
-    
+public final class DailyCommand implements CommandExecutor {
+    private final DailyPlugin plugin;
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = sender instanceof Player ? (Player)sender : null;

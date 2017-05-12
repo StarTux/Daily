@@ -1,18 +1,19 @@
 package com.winthier.daily;
 
 import java.util.Arrays;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+@Getter
 abstract class Reward implements Comparable<Reward> {
-    int score;
-    String title;
-    String description;
+    private int score;
+    private String title;
+    private String description;
 
     abstract void give(Player player);
 
-    void deserialize(ConfigurationSection config) {}
+    void deserialize(ConfigurationSection config) { }
 
     @Override
     public int compareTo(Reward o) {
@@ -40,24 +41,24 @@ abstract class Reward implements Comparable<Reward> {
 }
 
 class ConsoleCommandReward extends Reward {
-    String command;
+    private String command;
 
     @Override
     void deserialize(ConfigurationSection config) {
         command = config.getString("Command");
         if (command == null) throw new NullPointerException("Command cannot be null");
     }
-    
+
     @Override
-    public void give (Player player) {
+    public void give(Player player) {
         String cmd = command.replace("%player%", player.getName()).replace("%uuid%", player.getUniqueId().toString());
         Msg.consoleCommand(cmd);
     }
 }
 
 class RankUpReward extends Reward {
-    String from, to;
-    
+    private String from, to;
+
     @Override
     void deserialize(ConfigurationSection config) {
         from = config.getString("From");
@@ -67,7 +68,7 @@ class RankUpReward extends Reward {
     }
 
     @Override
-    public void give (Player player) {
+    public void give(Player player) {
         VaultHandler vault = DailyPlugin.getInstance().getVaultHandler();
         if (Arrays.asList(vault.getPermission().getPlayerGroups(player)).contains(from)) {
             vault.getPermission().playerAddGroup(player, to);

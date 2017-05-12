@@ -3,32 +3,24 @@ package com.winthier.daily.sql;
 import com.winthier.daily.DailyPlugin;
 import com.winthier.daily.Util;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 
-@Entity
-@Table(name = "logs")
-@Getter
-@Setter
-@NoArgsConstructor
-public class SQLLog {
-    @Id Integer id;
-    @Column(nullable = false) Date time;
-    @Column(nullable = false) UUID playerUuid;
-    @Column(nullable = false) String playerName;
-    @Column(nullable = false) String dailyName;
+@Entity @Getter @Setter @Table(name = "logs") @NoArgsConstructor
+public final class SQLLog {
+    @Id private Integer id;
+    @Column(nullable = false) private Date time;
+    @Column(nullable = false) private UUID playerUuid;
+    @Column(nullable = false) private String playerName;
+    @Column(nullable = false) private String dailyName;
 
     private SQLLog(Player player, String dailyName) {
         setTime(new Date());

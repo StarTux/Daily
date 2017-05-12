@@ -3,6 +3,6 @@ package com.winthier.daily;
 import lombok.Value;
 
 @Value
-public class DailyTask {
-    String id, description, command;
+final class DailyTask {
+    private final String id, description, command;
 }

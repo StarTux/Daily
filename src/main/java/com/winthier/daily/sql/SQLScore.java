@@ -1,36 +1,25 @@
 package com.winthier.daily.sql;
 
-import com.avaje.ebean.validation.Length;
-import com.avaje.ebean.validation.NotEmpty;
 import com.winthier.daily.DailyPlugin;
-import com.winthier.daily.Util;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 
-@Entity
-@Table(name = "scores")
-@Getter
-@Setter
-@NoArgsConstructor
-public class SQLScore {
-    @Id Integer id;
-    @Column(nullable = false) UUID playerUuid;
-    @Column(nullable = false) String playerName;
-    @Column(nullable = false) Integer score;
-    @Version Date version;
+@Entity @Getter @Setter @Table(name = "scores") @NoArgsConstructor
+public final class SQLScore {
+    @Id private Integer id;
+    @Column(nullable = false) private UUID playerUuid;
+    @Column(nullable = false) private String playerName;
+    @Column(nullable = false) private Integer score;
+    @Version private Date version;
 
     private SQLScore(Player player) {
         setPlayerUuid(player.getUniqueId());

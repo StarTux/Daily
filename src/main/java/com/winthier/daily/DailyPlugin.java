@@ -30,6 +30,7 @@ public final class DailyPlugin extends JavaPlugin {
         instance = this;
         db = new SQLDatabase(this);
         db.registerTables(SQLScore.class, SQLLog.class);
+        db.createAllTables();
         getCommand("dailyadmin").setExecutor(new AdminCommand(this));
         getCommand("daily").setExecutor(new DailyCommand(this));
         // Handlers

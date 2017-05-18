@@ -28,7 +28,7 @@ public final class SQLScore {
     }
 
     public static int addScore(Player player, int points) {
-        SQLScore score = DailyPlugin.getInstance().getDatabase().find(SQLScore.class).where().eq("player_uuid", player.getUniqueId()).findUnique();
+        SQLScore score = DailyPlugin.getInstance().getDb().find(SQLScore.class).where().eq("player_uuid", player.getUniqueId()).findUnique();
         if (score == null) {
             score = new SQLScore(player);
             score.setScore(points);
@@ -36,12 +36,12 @@ public final class SQLScore {
             score.setScore(score.getScore() + points);
         }
         score.setPlayerName(player.getName());
-        DailyPlugin.getInstance().getDatabase().save(score);
+        DailyPlugin.getInstance().getDb().save(score);
         return score.getScore();
     }
 
     public static int getScore(UUID uuid) {
-        SQLScore score = DailyPlugin.getInstance().getDatabase().find(SQLScore.class).where().eq("player_uuid", uuid).findUnique();
+        SQLScore score = DailyPlugin.getInstance().getDb().find(SQLScore.class).where().eq("player_uuid", uuid).findUnique();
         if (score == null) return 0;
         return score.getScore();
     }
